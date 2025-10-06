@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun, Cintaku!</title>
+    <!-- Memuat Tailwind CSS untuk styling yang cantik dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-red': '#D9214D',
+                        'secondary-pink': '#FFD7E4',
+                        'bg-light': '#FFF8F9',
+                        'photo-bg': '#FFECEF',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Georgia', 'serif'],
+                    },
+                    // Animasi untuk efek visual yang halus dan modern
+                    keyframes: {
+                        heartbeat: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.1)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        // Keyframe untuk efek hati melayang
+                        floatUp: {
+                            '0%': { transform: 'translateY(0) rotate(0deg)', opacity: '1' },
+                            '100%': { transform: 'translateY(-1200px) rotate(360deg)', opacity: '0' },
+                        }
+                    },
+                    animation: {
+                        heartbeat: 'heartbeat 1s ease-in-out infinite',
+                        fadeIn: 'fadeIn 0.8s ease-out',
+                        floatUp: 'floatUp 15s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Gaya kustom untuk tampilan yang lebih romantis */
+        /* Mengizinkan scroll pada body */
+        body {
+            background-color: theme('colors.bg-light');
+            min-height: 100vh;
+            display: block; /* Mengganti flex untuk scroll yang lebih baik */
+            padding: 2rem 0; /* Menambahkan padding agar konten tidak mepet */
+        }
+        .card {
+            box-shadow: 0 10px 25px -3px rgba(217, 33, 77, 0.2), 0 4px 6px -2px rgba(217, 33, 77, 0.1);
+        }
+        .page-transition {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Gaya untuk elemen hati yang melayang */
+        .floating-heart {
+            position: fixed; /* Menggunakan fixed agar tidak ikut di-scroll */
+            bottom: -50px;
+            pointer-events: none;
+            z-index: 0; /* Pastikan di belakang konten utama */
+        }
+
+        /* Styling untuk container foto */
+        .photo-container {
+            background-color: theme('colors.photo-bg');
+            border: 3px solid theme('colors.secondary-pink');
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+        }
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Memastikan app-container berada di tengah dan di atas hati yang melayang */
+        #app-container {
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="font-sans">
+
+    <!-- Container Utama -->
+    <div id="app-container" class="w-full max-w-lg mx-auto relative z-10">
+        
+        <!-- Halaman 1: Input Nama -->
+        <div id="page-1" class="page-transition card bg-white p-8 rounded-2xl shadow-xl text-center flex flex-col items-center animate-fadeIn">
+            <svg class="w-20 h-20 text-primary-red mb-6 animate-heartbeat" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+            </svg>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">Untuk Si Cantik...</h1>
+            
+            <input type="text" id="wifeName" placeholder="Masukkan nama istri Anda" class="w-full p-3 mb-6 border-2 border-secondary-pink rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-red transition duration-300 text-center text-gray-800 font-semibold" required>
+            
+            <button onclick="goToPage2()" class="w-full bg-primary-red text-white py-3 px-6 rounded-xl font-bold text-lg hover:bg-red-700 transition duration-300 transform hover:scale-105">
+                Lanjut
+            </button>
+        </div>
+
+        <!-- Halaman 2: Klik 4 Hati -->
+        <div id="page-2" class="page-transition hidden card bg-white p-8 rounded-2xl shadow-xl text-center flex flex-col items-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Bukti Cinta</h2>
+            <p class="text-lg text-gray-600 mb-10">Klik 4 simbol cinta di bawah ini untuk membuka halaman selanjutnya.</p>
+            
+            <div id="love-container" class="flex justify-around w-full max-w-xs space-x-4">
+                <!-- 4 Love Icons -->
+                <button class="love-icon p-3 transition duration-300 transform hover:scale-110 focus:outline-none" data-clicked="false" onclick="clickLove(this)">
+                    <svg class="w-12 h-12 text-gray-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                </button>
+                <button class="love-icon p-3 transition duration-300 transform hover:scale-110 focus:outline-none" data-clicked="false" onclick="clickLove(this)">
+                    <svg class="w-12 h-12 text-gray-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                </button>
+                <button class="love-icon p-3 transition duration-300 transform hover:scale-110 focus:outline-none" data-clicked="false" onclick="clickLove(this)">
+                    <svg class="w-12 h-12 text-gray-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                </button>
+                <button class="love-icon p-3 transition duration-300 transform hover:scale-110 focus:outline-none" data-clicked="false" onclick="clickLove(this)">
+                    <svg class="w-12 h-12 text-gray-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+
+            <p id="click-message" class="mt-8 text-lg font-semibold text-primary-red opacity-0 transition duration-300">🎉 Sudah Terpenuhi! 🎉</p>
+        </div>
+
+        <!-- Halaman 3: Ucapan, Foto, dan Lanjut Doa -->
+        <div id="page-3" class="page-transition hidden card bg-white p-8 rounded-2xl shadow-xl text-center flex flex-col items-center">
+            
+            <!-- Tampilan Ucapan SELAMAT yang Keren dan Modern (Efek Ketik) -->
+            <div class="mb-8 w-full min-h-[150px]">
+                <h2 class="text-4xl md:text-5xl font-extrabold leading-none">
+                    <span id="type-selamat" class="block text-6xl md:text-7xl font-sans bg-clip-text text-transparent bg-gradient-to-r from-primary-red to-pink-500"></span> 
+                    <span id="type-ultah" class="block text-4xl md:text-5xl font-sans text-gray-700"></span> 
+                    <span id="type-name" class="block text-5xl md:text-6xl font-serif bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-amber-600"></span>
+                </h2>
+            </div>
+
+            <!-- Area Teks Pesan Utama (akan diisi dengan efek ketik) -->
+            <!-- Dipecah menjadi 3 paragraf agar terlihat lebih banyak dan menarik -->
+            <div class="text-lg md:text-xl text-gray-700 mt-2 space-y-4 text-center md:text-left min-h-[180px]">
+                <p id="type-message-1-content"></p>
+                <p id="type-message-2-content" class="text-gray-700"></p>
+                <p id="type-message-3-content" class="font-bold text-2xl text-primary-red mt-4 text-center"></p>
+            </div>
+            
+            <!-- Area 4 Foto -->
+            <div class="mt-10 w-full">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-secondary-pink pb-2">Kenangan Indah Kita</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    
+                    <!-- MULAI FOTO (Ganti KEDUA URL placeholder di src="" dengan URL FOTO PUBLIK Anda) -->
+
+                    <!-- Photo 1 (Contoh: P1.jpeg) -->
+                    <div class="photo-container rounded-xl shadow-lg hover:scale-[1.02] transition duration-300">
+                        <!-- Ganti URL di bawah dengan URL PUBLIK Foto 1 Anda -->
+                        <img src="F1.jpeg" alt="Foto Kenangan 1" onerror="this.onerror=null;this.src='https://placehold.co/400x400/FFC0CB/581845?text=Foto+1+(URL+Publik)';" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <!-- Photo 2 (Contoh: P2.jpeg) -->
+                    <div class="photo-container rounded-xl shadow-lg hover:scale-[1.02] transition duration-300">
+                        <!-- Ganti URL di bawah dengan URL PUBLIK Foto 2 Anda -->
+                        <img src="F2.jpeg" alt="Foto Kenangan 2" onerror="this.onerror=null;this.src='https://placehold.co/400x400/FFC0CB/581845?text=Foto+2+(URL+Publik)';" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <!-- Photo 3 (Contoh: i3.jpeg) -->
+                    <div class="photo-container rounded-xl shadow-lg hover:scale-[1.02] transition duration-300">
+                        <!-- Ganti URL di bawah dengan URL PUBLIK Foto 3 Anda -->
+                        <img src="F3.jpeg" alt="Foto Kenangan 3" onerror="this.onerror=null;this.src='https://placehold.co/400x400/FFC0CB/581845?text=Foto+3+(URL+Publik)';" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <!-- Photo 4 (Contoh: i4.jpeg) -->
+                    <div class="photo-container rounded-xl shadow-lg hover:scale-[1.02] transition duration-300">
+                        <!-- Ganti URL di bawah dengan URL PUBLIK Foto 4 Anda -->
+                        <img src="F4.jpeg" alt="Foto Kenangan 4" onerror="this.onerror=null;this.src='https://placehold.co/400x400/FFC0CB/581845?text=Foto+4+(URL+Publik)';" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <!-- AKHIR FOTO -->
+
+                </div>
+            </div>
+            
+            <button onclick="goToPage4()" class="mt-8 w-full bg-yellow-500 text-white py-3 px-6 rounded-xl font-bold text-lg hover:bg-yellow-600 transition duration-300 transform hover:scale-105">
+                Kado Balasan &gt;&gt;
+            </button>
+        </div>
+
+        <!-- Halaman 4: Area Mengetik Pesan Balasan -->
+        <div id="page-4" class="page-transition hidden card bg-white p-8 rounded-2xl shadow-xl text-center flex flex-col items-center">
+            <svg class="w-16 h-16 text-primary-red mb-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zm-5.045 5.045l1.06 1.06-2.829 2.828-1.06-1.06.793-.793zM16 11l-2 2H8l-2-2v-1h8v1zm-2 2h-4v-1h4v1z"></path></svg>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 border-b-2 border-primary-red pb-2 w-full">Tulis Balasan Tulus untuk Suamimu</h2>
+            
+            <p class="text-lg text-gray-600 mb-8 italic">Pesan ini akan langsung terkirim ke WhatsApp suamimu. Tulis doa atau pesan spesial dari hatimu!</p>
+            
+            <!-- Area Teks Balasan (Textarea) -->
+            <textarea id="wifeMessage" placeholder="Ketik pesan tulus atau doa balasan Anda di sini... (Contoh: Terima kasih banyak, Sayangku! Doaku untukmu juga...)" class="w-full text-md md:text-lg text-gray-700 mt-4 text-left p-6 bg-secondary-pink rounded-xl border-l-4 border-primary-red shadow-inner min-h-[300px] resize-none focus:outline-none focus:ring-4 focus:ring-primary-red focus:border-transparent transition duration-300"></textarea>
+            
+            <button onclick="shareOnWhatsApp()" class="mt-8 flex items-center justify-center bg-green-500 text-white py-3 px-6 rounded-xl font-bold text-lg hover:bg-green-600 transition duration-300 transform hover:scale-105 shadow-lg">
+                <!-- WhatsApp Icon SVG -->
+                <svg class="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12.039 2.019a.677.677 0 00-.735.031c-3.79 2.08-7.58 4.16-11.37 6.241a.677.677 0 00-.324.582c0 .647-.02 1.294.02 1.94a.677.677 0 00.314.572c1.47 1.059 2.94 2.119 4.411 3.178.503.361.644.407 1.258.427.614.02 1.228.04 1.842.06 4.909.13 9.817.261 14.726.391.685.018 1.08-.052 1.408-.553.491-.758.982-1.517 1.474-2.275.29-.444.13-.746-.172-1.018-1.077-.96-2.155-1.92-3.232-2.88-.344-.308-.475-.54-.15-.99.513-.715 1.026-1.429 1.54-2.144.202-.28.163-.585-.015-.815-1.073-1.39-2.146-2.779-3.22-4.168-.261-.341-.53-.456-.91-.456-1.229-.001-2.458-.001-3.687 0-.399 0-.661.125-.831.325z"/></svg>
+                Kirim Pesan Ini ke Suami
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        let wifeName = "";
+        let clicks = 0;
+        const totalClicks = 4;
+        const page1 = document.getElementById('page-1');
+        const page2 = document.getElementById('page-2');
+        const page3 = document.getElementById('page-3');
+        const page4 = document.getElementById('page-4');
+        const clickMessage = document.getElementById('click-message');
+
+        // --- Definisi Teks Kaya (Rich Text) untuk Efek Ketik ---
+        
+        // Teks Pesan Utama (Halaman 3) - Dibuat lebih terpisah agar terlihat lebih banyak dan menarik (3 Paragraf)
+        const messageP1 = "Hari ini adalah hari istimewa, hari di mana bintang paling terang di hidupku dilahirkan.";
+        const messageP2 = "Terima kasih sudah menjadi <strong>istri terbaik</strong>—teman hidupku, <em>partner</em> tertawaku, dan alasan terbesarku untuk bahagia.";
+        // Teks Halaman 3 yang Diperbarui
+        const messageP3 = "Kamu adalah hadiah terindah, dan cintaku padamu takkan pernah mengenal batas waktu. Selamat ulang tahun, Sayang!";
+        
+        // Fungsi Generik untuk Efek Mengetik yang Mendukung HTML Tags
+        function typeWriter(element, text, speed, callback = () => {}) {
+            let i = 0;
+            const fullText = text;
+            element.innerHTML = ''; // Mulai kosong, siap diisi dengan innerHTML
+
+            function typing() {
+                if (i < fullText.length) {
+                    const remainingText = fullText.substring(i);
+                    
+                    // Regex untuk menemukan tag HTML (misalnya: <strong>, </strong>)
+                    const tagMatch = remainingText.match(/^<[^>]+>/i);
+
+                    if (tagMatch) {
+                        // Jika ditemukan tag, masukkan tag utuh (tidak diketik per karakter)
+                        element.innerHTML += tagMatch[0];
+                        i += tagMatch[0].length;
+                    } else {
+                        // Jika bukan tag, ketik satu karakter
+                        element.innerHTML += remainingText.charAt(0);
+                        i++;
+                    }
+                    setTimeout(typing, speed);
+                } else {
+                    if (callback) callback();
+                }
+            }
+            typing();
+        }
+
+        // Fungsi untuk transisi antar halaman
+        function showPage(pageToShow) {
+            // Sembunyikan semua halaman dengan efek fade out
+            const pages = [page1, page2, page3, page4];
+            pages.forEach(page => {
+                page.style.opacity = '0';
+                page.classList.add('hidden');
+            });
+            
+            // Tampilkan halaman yang diminta dengan efek fade in
+            setTimeout(() => {
+                pageToShow.classList.remove('hidden');
+                pageToShow.style.opacity = '1';
+                pageToShow.classList.add('animate-fadeIn');
+            }, 50); // Penundaan singkat untuk memastikan transisi CSS terpicu
+        }
+
+        // Fungsi untuk membuat hati melayang
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '<svg class="w-6 h-6 text-primary-red opacity-80" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>';
+            
+            heart.classList.add('floating-heart');
+            
+            // Randomisasi posisi, ukuran, dan durasi animasi
+            const size = Math.floor(Math.random() * (30 - 15) + 15);
+            const left = Math.floor(Math.random() * 100);
+            const duration = Math.floor(Math.random() * (15 - 8) + 8);
+            const delay = Math.floor(Math.random() * 5);
+
+            heart.style.left = `${left}vw`;
+            heart.style.animationDuration = `${duration}s`;
+            heart.style.animationDelay = `${delay}s`;
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+            heart.style.animation = `floatUp ${duration}s linear infinite`;
+
+            document.body.appendChild(heart);
+            
+            // Hapus setelah selesai animasi
+            heart.addEventListener('animationend', () => heart.remove());
+        }
+
+        // Panggil fungsi untuk mengisi layar dengan hati yang melayang
+        function startHeartAnimation() {
+            // Buat sekitar 20-30 hati
+            for (let i = 0; i < 25; i++) {
+                createFloatingHeart();
+            }
+        }
+        
+        // --- Halaman 1 Logic ---
+        function goToPage2() {
+            const input = document.getElementById('wifeName');
+            wifeName = input.value.trim();
+
+            if (wifeName) {
+                // Simpan nama dan pindah ke halaman 2
+                showPage(page2);
+            } else {
+                // Notifikasi jika nama kosong
+                input.placeholder = "Nama tidak boleh kosong!";
+                input.focus();
+            }
+        }
+
+        // --- Halaman 2 Logic ---
+        function clickLove(element) {
+            if (element.getAttribute('data-clicked') === 'true') {
+                return;
+            }
+
+            element.setAttribute('data-clicked', 'true');
+            clicks++;
+
+            // Ubah warna ikon hati menjadi merah dan berikan feedback visual
+            element.querySelector('svg').classList.remove('text-gray-300');
+            element.querySelector('svg').classList.add('text-primary-red', 'animate-heartbeat', 'motion-safe:animate-none'); 
+
+            if (clicks >= totalClicks) {
+                clickMessage.classList.remove('opacity-0');
+                
+                setTimeout(() => {
+                    goToPage3();
+                }, 1000); 
+            }
+        }
+
+        // --- Halaman 3 Logic (Greeting & Message Typing Effect) ---
+        function goToPage3() {
+            showPage(page3);
+            const wifeDisplay = wifeName || "Sayang";
+            
+            // Elemen Greeting
+            const typeSelamat = document.getElementById('type-selamat');
+            const typeUltah = document.getElementById('type-ultah');
+            const typeName = document.getElementById('type-name');
+
+            // Elemen Pesan Utama (3 Paragraf)
+            const msg1 = document.getElementById('type-message-1-content');
+            const msg2 = document.getElementById('type-message-2-content');
+            const msg3 = document.getElementById('type-message-3-content');
+
+            // 1. Kosongkan semua teks
+            [typeSelamat, typeUltah, typeName, msg1, msg2, msg3].forEach(el => el.innerHTML = '');
+
+            // 2. Mulai efek mengetik berurutan (Greeting: 70ms, Message: 30ms)
+            typeWriter(typeSelamat, 'SELAMAT', 70, () => {
+                typeWriter(typeUltah, 'ULANG TAHUN,', 70, () => {
+                    typeWriter(typeName, wifeDisplay + '!', 70, () => {
+                        // 3. Pesan Utama (Kini 3 Paragraf, mengetik berurutan)
+                        typeWriter(msg1, messageP1, 30, () => {
+                            typeWriter(msg2, messageP2, 30, () => {
+                                typeWriter(msg3, messageP3, 30);
+                            });
+                        });
+                    });
+                });
+            });
+        }
+
+        // --- Halaman 4 Logic (Area Mengetik Pesan) ---
+        function goToPage4() {
+            showPage(page4);
+            // Fokuskan textarea agar istri Anda bisa langsung mengetik
+            document.getElementById('wifeMessage').focus();
+        }
+
+        // --- WhatsApp Share Logic ---
+        function shareOnWhatsApp() {
+            const wifeMessage = document.getElementById('wifeMessage').value.trim();
+            const wifeDisplay = wifeName || "Sayang";
+
+            if (!wifeMessage) {
+                const textarea = document.getElementById('wifeMessage');
+                textarea.placeholder = "Pesan tidak boleh kosong. Silakan ketik balasan Anda!";
+                textarea.classList.add('border-red-500'); // Memberi isyarat visual
+                setTimeout(() => {
+                    textarea.classList.remove('border-red-500');
+                }, 2000);
+                textarea.focus();
+                return;
+            }
+
+            // Pesan yang dikirim akan berisi balasan dari istri
+            const message = `Pesan Balasan dari Istrimu, ${wifeDisplay}, di Hari Ulang Tahun:\n\n---\n${wifeMessage}\n---\n\n(Dikirim melalui kartu ucapan spesial darimu)`;
+            
+            // Encode URI untuk URL WhatsApp
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Format URL WhatsApp (menggunakan wa.me agar bisa dibuka di desktop/mobile)
+            const whatsappUrl = `https://wa.me/?text=${encodedMessage}`; 
+            
+            // Buka di tab baru
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Inisialisasi: Pastikan Halaman 1 yang terlihat saat dimuat dan mulai animasi hati
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage(page1);
+            startHeartAnimation();
+        });
+
+    </script>
+</body>
+</html>
